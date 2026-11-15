@@ -1,0 +1,67 @@
+[contract]
+id = "finance.revenue_daily"
+version = "1.0.0"
+owner = "finance-data"
+domain = "finance"
+tier = 2
+status = "active"
+classification = "internal"
+description = "Revenue and order counts per day and currency, built from orders and invoices."
+upstream = ["sales.orders", "finance.invoices"]
+retention_days = 3650
+
+[sla]
+freshness_minutes = 240
+completeness_pct = 99.5
+
+[[field]]
+name = "revenue_date"
+type = "date"
+nullable = false
+primary_key = true
+description = "Calendar date in UTC."
+
+[[field]]
+name = "currency"
+type = "string"
+nullable = false
+primary_key = true
+description = "ISO 4217 currency the amounts are in."
+
+[[field]]
+name = "revenue"
+type = "decimal"
+nullable = false
+derived_from = "sales.orders.amount"
+description = "Sum of order amounts that day, excluding cancelled orders."
+
+[[field]]
+name = "order_count"
+type = "long"
+nullable = false
+description = "Number of orders counted in revenue."
+
+[[field]]
+name = "invoiced_amount"
+type = "decimal"
+nullable = false
+derived_from = "finance.invoices.amount"
+description = "Sum of invoice amounts issued that day."
+
+[[quality]]
+id = "revenue_non_negative"
+field = "revenue"
+check = "range"
+min = 0
+
+[[consumer]]
+id = "finance.revenue-dashboard"
+team = "finance-analytics"
+criticality = "high"
+fields = ["revenue_date", "currency", "revenue", "order_count"]
+
+[[consumer]]
+id = "bi.exec-scorecard"
+team = "bi-platform"
+criticality = "high"
+fields = ["revenue_date", "revenue", "invoiced_amount"]

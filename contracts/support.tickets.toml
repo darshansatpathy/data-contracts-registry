@@ -1,0 +1,49 @@
+[contract]
+id = "support.tickets"
+version = "0.1.0"
+owner = "support-data"
+domain = "support"
+tier = 3
+status = "draft"
+classification = "confidential"
+description = "Support tickets from the help desk. Draft: free text may hold personal data, under review."
+retention_days = 365
+
+[[field]]
+name = "ticket_id"
+type = "string"
+nullable = false
+primary_key = true
+description = "Help desk ticket number."
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "subject"
+type = "string"
+nullable = false
+description = "Ticket subject line as typed by the customer."
+
+[[field]]
+name = "body"
+type = "string"
+nullable = true
+pii = true
+description = "Free text of the ticket. May contain personal data."
+
+[[field]]
+name = "priority"
+type = "string"
+nullable = false
+enum = ["low", "normal", "high", "urgent"]
+description = "Priority assigned by the triage agent."
+
+[[field]]
+name = "opened_at"
+type = "timestamp"
+nullable = false
+description = "When the ticket was opened, UTC."

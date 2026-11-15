@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:finance.invoices:2.0.0",
+  "title": "finance.invoices",
+  "description": "One row per invoice issued for an order. Used for receivables and month-end close.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "invoice_id",
+    "order_id",
+    "amount",
+    "currency",
+    "issued_on",
+    "status"
+  ],
+  "properties": {
+    "invoice_id": {
+      "type": "string",
+      "description": "Invoice number from the finance system."
+    },
+    "order_id": {
+      "type": "string",
+      "description": "The order this invoice was issued for."
+    },
+    "amount": {
+      "type": "number",
+      "description": "Invoiced amount in the invoice currency."
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "INR",
+        "USD",
+        "EUR",
+        "GBP"
+      ],
+      "description": "ISO 4217 currency of the invoice."
+    },
+    "issued_on": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the invoice was issued."
+    },
+    "paid_on": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date",
+      "description": "Date payment was received; null while unpaid."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "paid",
+        "void",
+        "overdue"
+      ],
+      "description": "Receivable status of the invoice."
+    }
+  },
+  "x-contract": {
+    "version": "2.0.0",
+    "owner": "finance-data",
+    "classification": "confidential",
+    "tier": 1
+  }
+}

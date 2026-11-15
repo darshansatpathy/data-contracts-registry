@@ -1,0 +1,87 @@
+[contract]
+id = "finance.invoices"
+version = "2.0.0"
+owner = "finance-data"
+domain = "finance"
+tier = 1
+status = "active"
+classification = "confidential"
+description = "One row per invoice issued for an order. Used for receivables and month-end close."
+upstream = ["sales.orders"]
+retention_days = 2555
+
+[sla]
+freshness_minutes = 120
+completeness_pct = 99.9
+
+[[field]]
+name = "invoice_id"
+type = "string"
+nullable = false
+primary_key = true
+description = "Invoice number from the finance system."
+
+[[field]]
+name = "order_id"
+type = "string"
+nullable = false
+derived_from = "sales.orders.order_id"
+description = "The order this invoice was issued for."
+
+[[field]]
+name = "amount"
+type = "decimal"
+nullable = false
+derived_from = "sales.orders.amount"
+description = "Invoiced amount in the invoice currency."
+
+[[field]]
+name = "currency"
+type = "string"
+nullable = false
+enum = ["INR", "USD", "EUR", "GBP"]
+derived_from = "sales.orders.currency"
+description = "ISO 4217 currency of the invoice."
+
+[[field]]
+name = "issued_on"
+type = "date"
+nullable = false
+description = "Date the invoice was issued."
+
+[[field]]
+name = "paid_on"
+type = "date"
+nullable = true
+description = "Date payment was received; null while unpaid."
+
+[[field]]
+name = "status"
+type = "string"
+nullable = false
+enum = ["open", "paid", "void", "overdue"]
+description = "Receivable status of the invoice."
+
+[[quality]]
+id = "invoice_unique"
+field = "invoice_id"
+check = "unique"
+
+[[quality]]
+id = "amount_range"
+field = "amount"
+check = "range"
+min = 0
+max = 10000000
+
+[[consumer]]
+id = "finance.ar-aging"
+team = "finance-analytics"
+criticality = "high"
+fields = ["invoice_id", "amount", "currency", "issued_on", "paid_on", "status"]
+
+[[consumer]]
+id = "risk.credit-exposure"
+team = "risk-analytics"
+criticality = "medium"
+fields = ["order_id", "amount", "status"]

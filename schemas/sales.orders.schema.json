@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:sales.orders:1.2.0",
+  "title": "sales.orders",
+  "description": "One row per customer order after cleaning and de-duplication. The source of truth for revenue.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "order_id",
+    "customer_id",
+    "amount",
+    "currency",
+    "status",
+    "ordered_at",
+    "order_date"
+  ],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "description": "Storefront order identifier."
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "amount": {
+      "type": "number",
+      "description": "Order total including tax, in the order currency."
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "INR",
+        "USD",
+        "EUR",
+        "GBP"
+      ],
+      "description": "ISO 4217 currency of the amount."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "placed",
+        "paid",
+        "shipped",
+        "cancelled",
+        "returned"
+      ],
+      "description": "Where the order is in its life."
+    },
+    "channel": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "web",
+        "app",
+        "store",
+        "partner",
+        null
+      ],
+      "description": "Sales channel, mapped to a closed set."
+    },
+    "ordered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the order was created, UTC."
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Calendar date of ordered_at in UTC. Added in 1.2.0 for daily reporting."
+    }
+  },
+  "x-contract": {
+    "version": "1.2.0",
+    "owner": "sales-data",
+    "classification": "internal",
+    "tier": 1
+  }
+}

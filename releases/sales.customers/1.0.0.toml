@@ -1,0 +1,83 @@
+[contract]
+id = "sales.customers"
+version = "1.0.0"
+owner = "sales-data"
+domain = "sales"
+tier = 1
+status = "active"
+classification = "restricted"
+description = "One row per registered customer. Holds personal data; access is limited and audited."
+retention_days = 1825
+
+[sla]
+freshness_minutes = 120
+completeness_pct = 99.9
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+primary_key = true
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "email"
+type = "string"
+nullable = false
+pii = true
+description = "Login email address. Personal data."
+
+[[field]]
+name = "full_name"
+type = "string"
+nullable = true
+pii = true
+description = "Name as entered by the customer. Personal data."
+
+[[field]]
+name = "country"
+type = "string"
+nullable = false
+description = "ISO 3166 alpha-2 country of the billing address."
+
+[[field]]
+name = "segment"
+type = "string"
+nullable = false
+enum = ["consumer", "smb", "enterprise"]
+description = "Commercial segment assigned by sales operations."
+
+[[field]]
+name = "created_at"
+type = "timestamp"
+nullable = false
+description = "When the account was created, UTC."
+
+[[quality]]
+id = "customer_unique"
+field = "customer_id"
+check = "unique"
+
+[[quality]]
+id = "email_shape"
+field = "email"
+check = "regex"
+pattern = "[^@\\s]+@[^@\\s]+\\.[^@\\s]+"
+
+[[consumer]]
+id = "marketing.audience-builder"
+team = "marketing-analytics"
+criticality = "high"
+fields = ["customer_id", "email", "segment"]
+
+[[consumer]]
+id = "support.crm-sync"
+team = "customer-care"
+criticality = "medium"
+fields = ["customer_id", "email", "full_name", "country"]
+
+[[consumer]]
+id = "ml.churn-feature-job"
+team = "ml-platform"
+criticality = "medium"
+fields = ["customer_id", "segment", "created_at"]

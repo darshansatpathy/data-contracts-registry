@@ -1,0 +1,72 @@
+[contract]
+id = "marketing.customer_360"
+version = "1.0.0"
+owner = "marketing-data"
+domain = "marketing"
+tier = 2
+status = "active"
+classification = "confidential"
+description = "Marketing view of each customer: segment, consent, lifetime value and last order."
+upstream = ["sales.customers", "sales.orders"]
+retention_days = 1095
+
+[sla]
+freshness_minutes = 360
+completeness_pct = 99.0
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+primary_key = true
+derived_from = "sales.customers.customer_id"
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "email"
+type = "string"
+nullable = false
+pii = true
+derived_from = "sales.customers.email"
+description = "Email address for campaigns. Personal data."
+
+[[field]]
+name = "segment"
+type = "string"
+nullable = false
+enum = ["consumer", "smb", "enterprise"]
+derived_from = "sales.customers.segment"
+description = "Commercial segment assigned by sales operations."
+
+[[field]]
+name = "marketing_opt_in"
+type = "boolean"
+nullable = false
+derived_from = "sales.customers.marketing_opt_in"
+description = "Whether the customer agreed to marketing messages."
+
+[[field]]
+name = "lifetime_value"
+type = "decimal"
+nullable = false
+derived_from = "sales.orders.amount"
+description = "Total order amount over the customer's life, in INR."
+
+[[field]]
+name = "last_order_at"
+type = "timestamp"
+nullable = true
+derived_from = "sales.orders.ordered_at"
+description = "When the customer last ordered; null if they never have."
+
+[[quality]]
+id = "ltv_non_negative"
+field = "lifetime_value"
+check = "range"
+min = 0
+
+[[consumer]]
+id = "marketing.audience-builder"
+team = "marketing-analytics"
+criticality = "high"
+fields = ["customer_id", "email", "lifetime_value", "marketing_opt_in", "segment"]

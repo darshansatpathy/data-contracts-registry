@@ -1,0 +1,7 @@
+{"country": "IN", "created_at": "2025-01-10T08:00:00Z", "customer_id": "C-200", "email": "customer0@example.com", "full_name": null, "marketing_opt_in": false, "segment": "consumer"}
+{"country": "US", "created_at": "2025-02-11T08:00:00Z", "customer_id": "C-201", "email": "customer1@example.com", "full_name": "Test Customer 1", "marketing_opt_in": true, "segment": "smb"}
+{"country": "DE", "created_at": "2025-03-12T08:00:00Z", "customer_id": "C-202", "email": "customer2@example.com", "full_name": "Test Customer 2", "marketing_opt_in": false, "segment": "enterprise"}
+{"country": "GB", "created_at": "2025-04-13T08:00:00Z", "customer_id": "C-203", "email": "customer3@example.com", "full_name": null, "marketing_opt_in": true, "segment": "consumer"}
+{"country": "IN", "created_at": "2025-05-14T08:00:00Z", "customer_id": "C-204", "email": "customer4@example.com", "full_name": "Test Customer 4", "marketing_opt_in": false, "segment": "smb"}
+{"country": "US", "created_at": "2025-06-15T08:00:00Z", "customer_id": "C-205", "email": "customer5@example.com", "full_name": "Test Customer 5", "marketing_opt_in": true, "segment": "enterprise"}
+{"country": "DE", "created_at": "2025-07-16T08:00:00Z", "customer_id": "C-206", "email": "customer6@example.com", "full_name": null, "marketing_opt_in": false, "segment": "consumer"}

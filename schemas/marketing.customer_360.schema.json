@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:marketing.customer_360:1.0.0",
+  "title": "marketing.customer_360",
+  "description": "Marketing view of each customer: segment, consent, lifetime value and last order.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "customer_id",
+    "email",
+    "segment",
+    "marketing_opt_in",
+    "lifetime_value"
+  ],
+  "properties": {
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "email": {
+      "type": "string",
+      "description": "Email address for campaigns. Personal data.",
+      "x-pii": true
+    },
+    "segment": {
+      "type": "string",
+      "enum": [
+        "consumer",
+        "smb",
+        "enterprise"
+      ],
+      "description": "Commercial segment assigned by sales operations."
+    },
+    "marketing_opt_in": {
+      "type": "boolean",
+      "description": "Whether the customer agreed to marketing messages."
+    },
+    "lifetime_value": {
+      "type": "number",
+      "description": "Total order amount over the customer's life, in INR."
+    },
+    "last_order_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time",
+      "description": "When the customer last ordered; null if they never have."
+    }
+  },
+  "x-contract": {
+    "version": "1.0.0",
+    "owner": "marketing-data",
+    "classification": "confidential",
+    "tier": 2
+  }
+}

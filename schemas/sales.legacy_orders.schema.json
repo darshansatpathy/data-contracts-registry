@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:sales.legacy_orders:3.0.0",
+  "title": "sales.legacy_orders",
+  "description": "Orders from the platform that was switched off in 2025. Kept only as a record of the retirement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "legacy_order_no"
+  ],
+  "properties": {
+    "legacy_order_no": {
+      "type": "string",
+      "description": "Order number in the retired system."
+    }
+  },
+  "x-contract": {
+    "version": "3.0.0",
+    "owner": "sales-data",
+    "classification": "internal",
+    "tier": 3
+  }
+}

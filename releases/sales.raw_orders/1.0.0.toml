@@ -1,0 +1,88 @@
+[contract]
+id = "sales.raw_orders"
+version = "1.0.0"
+owner = "sales-data"
+domain = "sales"
+tier = 2
+status = "active"
+classification = "confidential"
+description = "Orders exactly as the storefront emitted them, before cleaning. Kept for replay."
+retention_days = 730
+
+[sla]
+freshness_minutes = 30
+completeness_pct = 99.0
+
+[[field]]
+name = "order_id"
+type = "string"
+nullable = false
+primary_key = true
+description = "Storefront order identifier."
+
+[[field]]
+name = "customer_email"
+type = "string"
+nullable = true
+pii = true
+description = "Email typed at checkout. Personal data."
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "amount"
+type = "decimal"
+nullable = false
+description = "Order total including tax, in the order currency."
+
+[[field]]
+name = "currency"
+type = "string"
+nullable = false
+enum = ["INR", "USD", "EUR", "GBP"]
+description = "ISO 4217 currency of the amount."
+
+[[field]]
+name = "channel"
+type = "string"
+nullable = true
+description = "Sales channel as the storefront names it; free text."
+
+[[field]]
+name = "created_at"
+type = "timestamp"
+nullable = false
+description = "When the storefront created the order, UTC."
+
+[[field]]
+name = "legacy_code"
+type = "string"
+nullable = true
+description = "Old channel code, kept until the storefront stops sending it."
+
+[[quality]]
+id = "order_unique"
+field = "order_id"
+check = "unique"
+
+[[quality]]
+id = "amount_range"
+field = "amount"
+check = "range"
+min = 0
+max = 10000000
+
+[[deprecation]]
+field = "legacy_code"
+sunset = "2027-03-31"
+replacement = "channel"
+
+[[consumer]]
+id = "sales.orders-cleaner"
+team = "sales-data"
+criticality = "high"
+fields = ["order_id", "customer_id", "amount", "currency", "channel", "created_at"]

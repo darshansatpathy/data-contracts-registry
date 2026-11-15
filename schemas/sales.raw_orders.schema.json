@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:sales.raw_orders:1.0.0",
+  "title": "sales.raw_orders",
+  "description": "Orders exactly as the storefront emitted them, before cleaning. Kept for replay.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "order_id",
+    "customer_id",
+    "amount",
+    "currency",
+    "created_at"
+  ],
+  "properties": {
+    "order_id": {
+      "type": "string",
+      "description": "Storefront order identifier."
+    },
+    "customer_email": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Email typed at checkout. Personal data.",
+      "x-pii": true
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "amount": {
+      "type": "number",
+      "description": "Order total including tax, in the order currency."
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "INR",
+        "USD",
+        "EUR",
+        "GBP"
+      ],
+      "description": "ISO 4217 currency of the amount."
+    },
+    "channel": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Sales channel as the storefront names it; free text."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the storefront created the order, UTC."
+    },
+    "legacy_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Old channel code, kept until the storefront stops sending it."
+    }
+  },
+  "x-contract": {
+    "version": "1.0.0",
+    "owner": "sales-data",
+    "classification": "confidential",
+    "tier": 2
+  }
+}

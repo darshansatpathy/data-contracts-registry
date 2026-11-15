@@ -1,0 +1,27 @@
+{
+  "finance.invoices": {
+    "1.3.0": "5d7e5286559eb1b661015e28b8883d104a179a7e1e0195c83b5135dd156ac113"
+  },
+  "finance.revenue_daily": {
+    "1.0.0": "761ca4c289d672cbcbe0e9f88b83e1c5c82cefd340500351fb821cd95dd9ed97"
+  },
+  "marketing.customer_360": {
+    "1.0.0": "bb6b6301d8b566f2c80d3d50a0fff8e7618a31a046a73c1c61e90e43dcb6b65d"
+  },
+  "ml.churn_features": {
+    "1.0.0": "63000ef9f3dad7039f5da985fb1d9dfc1cdaaae402785b7f11e80c5699940d6c"
+  },
+  "sales.customers": {
+    "1.0.0": "f1caf4c221198d620a5b395957d2ec9e63534570eb3db685fc2fd9674b1f7632",
+    "1.1.0": "551cd841d2b985de197178c6dc4e7ebf68798ef67e75667a0fc0b85e9daec6b5"
+  },
+  "sales.legacy_orders": {
+    "3.0.0": "f590adc88469fc13a34aabe01a7e5774155e5cdf7fabf2cb4d5218fe1b693dd0"
+  },
+  "sales.orders": {
+    "1.1.0": "ce5c5ed46333a8f4563555afb94d03cbfdef3eb27d64f1b8995e5586ccc6e601"
+  },
+  "sales.raw_orders": {
+    "1.0.0": "f430b929302201a5c7b33c9f6647035a129ddb5d39a563c05fbeaa78e172d784"
+  }
+}

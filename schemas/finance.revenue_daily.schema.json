@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:finance.revenue_daily:1.0.0",
+  "title": "finance.revenue_daily",
+  "description": "Revenue and order counts per day and currency, built from orders and invoices.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "revenue_date",
+    "currency",
+    "revenue",
+    "order_count",
+    "invoiced_amount"
+  ],
+  "properties": {
+    "revenue_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Calendar date in UTC."
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency the amounts are in."
+    },
+    "revenue": {
+      "type": "number",
+      "description": "Sum of order amounts that day, excluding cancelled orders."
+    },
+    "order_count": {
+      "type": "integer",
+      "description": "Number of orders counted in revenue."
+    },
+    "invoiced_amount": {
+      "type": "number",
+      "description": "Sum of invoice amounts issued that day."
+    }
+  },
+  "x-contract": {
+    "version": "1.0.0",
+    "owner": "finance-data",
+    "classification": "internal",
+    "tier": 2
+  }
+}

@@ -1,0 +1,8 @@
+{"amount": 294.83, "currency": "USD", "invoice_id": "INV-5000", "issued_on": "2026-11-02", "order_id": "O-1001", "paid_on": "2026-11-02", "status": "paid"}
+{"amount": 140.01, "currency": "EUR", "invoice_id": "INV-5001", "issued_on": "2026-11-03", "order_id": "O-1002", "paid_on": null, "status": "overdue"}
+{"amount": 587.59, "currency": "GBP", "invoice_id": "INV-5002", "issued_on": "2026-11-04", "order_id": "O-1003", "paid_on": null, "status": "open"}
+{"amount": 69.83, "currency": "INR", "invoice_id": "INV-5003", "issued_on": "2026-11-05", "order_id": "O-1004", "paid_on": "2026-11-05", "status": "paid"}
+{"amount": 484.61, "currency": "USD", "invoice_id": "INV-5004", "issued_on": "2026-11-06", "order_id": "O-1005", "paid_on": null, "status": "open"}
+{"amount": 332.29, "currency": "EUR", "invoice_id": "INV-5005", "issued_on": "2026-11-07", "order_id": "O-1006", "paid_on": null, "status": "overdue"}
+{"amount": 56.91, "currency": "GBP", "invoice_id": "INV-5006", "issued_on": "2026-11-08", "order_id": "O-1007", "paid_on": "2026-11-08", "status": "paid"}
+{"amount": 459.15, "currency": "INR", "invoice_id": "INV-5007", "issued_on": "2026-11-09", "order_id": "O-1008", "paid_on": null, "status": "overdue"}

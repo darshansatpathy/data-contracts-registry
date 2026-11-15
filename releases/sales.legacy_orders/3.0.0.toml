@@ -1,0 +1,16 @@
+[contract]
+id = "sales.legacy_orders"
+version = "3.0.0"
+owner = "sales-data"
+domain = "sales"
+tier = 3
+status = "retired"
+classification = "internal"
+description = "Orders from the platform that was switched off in 2025. Kept only as a record of the retirement."
+
+[[field]]
+name = "legacy_order_no"
+type = "string"
+nullable = false
+primary_key = true
+description = "Order number in the retired system."

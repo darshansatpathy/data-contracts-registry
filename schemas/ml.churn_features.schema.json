@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:ml.churn_features:1.0.0",
+  "title": "ml.churn_features",
+  "description": "Daily feature snapshot per customer for the churn model. No personal data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "customer_id",
+    "snapshot_date",
+    "orders_90d",
+    "segment"
+  ],
+  "properties": {
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "snapshot_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date the features were computed for."
+    },
+    "orders_90d": {
+      "type": "integer",
+      "description": "Number of orders in the 90 days before the snapshot."
+    },
+    "avg_amount_90d": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Mean order amount over the same window; null with no orders."
+    },
+    "days_since_last_order": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": -2147483648,
+      "maximum": 2147483647,
+      "description": "Days from the last order to the snapshot; null with no orders."
+    },
+    "segment": {
+      "type": "string",
+      "enum": [
+        "consumer",
+        "smb",
+        "enterprise"
+      ],
+      "description": "Commercial segment at the snapshot date."
+    }
+  },
+  "x-contract": {
+    "version": "1.0.0",
+    "owner": "ml-platform",
+    "classification": "internal",
+    "tier": 2
+  }
+}

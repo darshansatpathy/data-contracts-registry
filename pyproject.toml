@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "data-contracts-registry"
+version = "0.1.0"
+description = "Data contracts as reviewed code: compatibility and semver checks, lineage with PII propagation, consumer impact, record validation and schema export."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "Darshan Kumar Satpathy" }]
+keywords = ["data-contracts", "data-products", "data-mesh", "schema-evolution", "lineage", "data-governance"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "License :: OSI Approved :: MIT License",
+  "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.5", "mypy>=1.10", "pip-audit>=2.7", "pyyaml>=6.0"]
+
+[project.scripts]
+dcr = "datacontracts.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/datacontracts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error::ResourceWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S", "SIM", "RUF"]
+ignore = ["S101"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S", "B011", "E501"]
+"src/datacontracts/rules.py" = ["E501"]
+"src/datacontracts/compat.py" = ["E501"]
+"src/datacontracts/render.py" = ["E501"]
+"src/datacontracts/cli.py" = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = "src"
+packages = ["datacontracts"]

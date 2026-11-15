@@ -1,0 +1,102 @@
+[contract]
+id = "sales.orders"
+version = "1.1.0"
+owner = "sales-data"
+domain = "sales"
+tier = 1
+status = "active"
+classification = "internal"
+description = "One row per customer order after cleaning and de-duplication. The source of truth for revenue."
+upstream = ["sales.raw_orders"]
+retention_days = 2555
+
+[sla]
+freshness_minutes = 60
+completeness_pct = 99.5
+
+[[field]]
+name = "order_id"
+type = "string"
+nullable = false
+primary_key = true
+derived_from = "sales.raw_orders.order_id"
+description = "Storefront order identifier."
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+derived_from = "sales.raw_orders.customer_id"
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "amount"
+type = "decimal"
+nullable = false
+derived_from = "sales.raw_orders.amount"
+description = "Order total including tax, in the order currency."
+
+[[field]]
+name = "currency"
+type = "string"
+nullable = false
+enum = ["INR", "USD", "EUR", "GBP"]
+derived_from = "sales.raw_orders.currency"
+description = "ISO 4217 currency of the amount."
+
+[[field]]
+name = "status"
+type = "string"
+nullable = false
+enum = ["placed", "paid", "shipped", "cancelled", "returned"]
+description = "Where the order is in its life."
+
+[[field]]
+name = "channel"
+type = "string"
+nullable = true
+enum = ["web", "app", "store", "partner"]
+derived_from = "sales.raw_orders.channel"
+description = "Sales channel, mapped to a closed set."
+
+[[field]]
+name = "ordered_at"
+type = "timestamp"
+nullable = false
+derived_from = "sales.raw_orders.created_at"
+description = "When the order was created, UTC."
+
+[[quality]]
+id = "order_unique"
+field = "order_id"
+check = "unique"
+
+[[quality]]
+id = "customer_present"
+field = "customer_id"
+check = "not_null"
+
+[[quality]]
+id = "amount_range"
+field = "amount"
+check = "range"
+min = 0
+max = 10000000
+
+[[consumer]]
+id = "finance.revenue-pipeline"
+team = "finance-data"
+criticality = "high"
+fields = ["order_id", "amount", "currency", "ordered_at", "status"]
+
+[[consumer]]
+id = "ml.churn-feature-job"
+team = "ml-platform"
+criticality = "medium"
+fields = ["customer_id", "amount", "ordered_at"]
+
+[[consumer]]
+id = "marketing.attribution-job"
+team = "marketing-analytics"
+criticality = "medium"
+fields = ["order_id", "customer_id", "channel", "ordered_at"]

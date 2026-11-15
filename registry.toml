@@ -1,0 +1,9 @@
+[registry]
+name = "Acme Retail data contracts (synthetic)"
+teams = [
+  "sales-data", "finance-data", "marketing-data", "ml-platform", "support-data",
+  "finance-analytics", "marketing-analytics", "data-science", "customer-care",
+  "risk-analytics", "bi-platform",
+]
+max_pii_retention_days = 1825
+min_description_chars = 10

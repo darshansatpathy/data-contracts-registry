@@ -1,0 +1,12 @@
+{"amount": 294.83, "channel": "app", "currency": "USD", "customer_id": "C-201", "order_date": "2026-11-02", "order_id": "O-1001", "ordered_at": "2026-11-02T03:15:00Z", "status": "paid"}
+{"amount": 140.01, "channel": "store", "currency": "EUR", "customer_id": "C-202", "order_date": "2026-11-03", "order_id": "O-1002", "ordered_at": "2026-11-03T06:15:00Z", "status": "shipped"}
+{"amount": 587.59, "channel": "partner", "currency": "GBP", "customer_id": "C-203", "order_date": "2026-11-04", "order_id": "O-1003", "ordered_at": "2026-11-04T09:15:00Z", "status": "cancelled"}
+{"amount": 69.83, "channel": null, "currency": "INR", "customer_id": "C-204", "order_date": "2026-11-05", "order_id": "O-1004", "ordered_at": "2026-11-05T12:15:00Z", "status": "returned"}
+{"amount": 484.61, "channel": "web", "currency": "USD", "customer_id": "C-205", "order_date": "2026-11-06", "order_id": "O-1005", "ordered_at": "2026-11-06T15:15:00Z", "status": "placed"}
+{"amount": 332.29, "channel": "app", "currency": "EUR", "customer_id": "C-206", "order_date": "2026-11-07", "order_id": "O-1006", "ordered_at": "2026-11-07T18:15:00Z", "status": "paid"}
+{"amount": 56.91, "channel": "store", "currency": "GBP", "customer_id": "C-200", "order_date": "2026-11-08", "order_id": "O-1007", "ordered_at": "2026-11-08T21:15:00Z", "status": "shipped"}
+{"amount": 459.15, "channel": "partner", "currency": "INR", "customer_id": "C-201", "order_date": "2026-11-09", "order_id": "O-1008", "ordered_at": "2026-11-09T00:15:00Z", "status": "cancelled"}
+{"amount": 38.56, "channel": null, "currency": "USD", "customer_id": "C-202", "order_date": "2026-11-10", "order_id": "O-1009", "ordered_at": "2026-11-10T03:15:00Z", "status": "returned"}
+{"amount": 393.11, "channel": "web", "currency": "EUR", "customer_id": "C-203", "order_date": "2026-11-11", "order_id": "O-1010", "ordered_at": "2026-11-11T06:15:00Z", "status": "placed"}
+{"amount": 67.52, "channel": "app", "currency": "GBP", "customer_id": "C-204", "order_date": "2026-11-12", "order_id": "O-1011", "ordered_at": "2026-11-12T09:15:00Z", "status": "paid"}
+{"amount": 86.19, "channel": "store", "currency": "INR", "customer_id": "C-205", "order_date": "2026-11-13", "order_id": "O-1012", "ordered_at": "2026-11-13T12:15:00Z", "status": "shipped"}

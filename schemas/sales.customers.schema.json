@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:sales.customers:1.1.0",
+  "title": "sales.customers",
+  "description": "One row per registered customer. Holds personal data; access is limited and audited.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "customer_id",
+    "email",
+    "country",
+    "segment",
+    "created_at",
+    "marketing_opt_in"
+  ],
+  "properties": {
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "email": {
+      "type": "string",
+      "description": "Login email address. Personal data.",
+      "x-pii": true
+    },
+    "full_name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Name as entered by the customer. Personal data.",
+      "x-pii": true
+    },
+    "country": {
+      "type": "string",
+      "description": "ISO 3166 alpha-2 country of the billing address."
+    },
+    "segment": {
+      "type": "string",
+      "enum": [
+        "consumer",
+        "smb",
+        "enterprise"
+      ],
+      "description": "Commercial segment assigned by sales operations."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the account was created, UTC."
+    },
+    "marketing_opt_in": {
+      "type": "boolean",
+      "description": "Whether the customer agreed to marketing messages."
+    }
+  },
+  "x-contract": {
+    "version": "1.1.0",
+    "owner": "sales-data",
+    "classification": "restricted",
+    "tier": 1
+  }
+}

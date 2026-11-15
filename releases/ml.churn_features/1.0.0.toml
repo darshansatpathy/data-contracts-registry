@@ -1,0 +1,70 @@
+[contract]
+id = "ml.churn_features"
+version = "1.0.0"
+owner = "ml-platform"
+domain = "ml"
+tier = 2
+status = "active"
+classification = "internal"
+description = "Daily feature snapshot per customer for the churn model. No personal data."
+upstream = ["sales.customers", "sales.orders"]
+retention_days = 730
+
+[sla]
+freshness_minutes = 1440
+completeness_pct = 99.0
+
+[[field]]
+name = "customer_id"
+type = "string"
+nullable = false
+primary_key = true
+derived_from = "sales.customers.customer_id"
+description = "Pseudonymous customer identifier."
+
+[[field]]
+name = "snapshot_date"
+type = "date"
+nullable = false
+primary_key = true
+description = "Date the features were computed for."
+
+[[field]]
+name = "orders_90d"
+type = "long"
+nullable = false
+description = "Number of orders in the 90 days before the snapshot."
+
+[[field]]
+name = "avg_amount_90d"
+type = "decimal"
+nullable = true
+derived_from = "sales.orders.amount"
+description = "Mean order amount over the same window; null with no orders."
+
+[[field]]
+name = "days_since_last_order"
+type = "int"
+nullable = true
+derived_from = "sales.orders.ordered_at"
+description = "Days from the last order to the snapshot; null with no orders."
+
+[[field]]
+name = "segment"
+type = "string"
+nullable = false
+enum = ["consumer", "smb", "enterprise"]
+derived_from = "sales.customers.segment"
+description = "Commercial segment at the snapshot date."
+
+[[quality]]
+id = "orders_non_negative"
+field = "orders_90d"
+check = "range"
+min = 0
+
+[[consumer]]
+id = "ml.churn-model-training"
+team = "data-science"
+criticality = "high"
+fields = ["customer_id", "snapshot_date", "orders_90d", "avg_amount_90d", "days_since_last_order", "segment"]

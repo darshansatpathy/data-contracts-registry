@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint, types, tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Ruff lint
+        run: ruff check .
+      - name: Ruff format
+        run: ruff format --check .
+      - name: Mypy (strict)
+        run: mypy
+      - name: Tests with coverage
+        run: pytest --cov=datacontracts --cov-report=term-missing --cov-fail-under=85
+
+  registry:
+    name: Contracts, compatibility and generated files
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e .
+      - name: Policy rules
+        run: dcr check --fail-on high --format markdown | tee check.md
+      - name: Publish summary
+        if: always()
+        run: cat check.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Compatibility with the last release
+        run: dcr compat
+      - name: Sample records satisfy their contracts
+        run: |
+          dcr validate sales.orders samples/sales.orders.jsonl
+          dcr validate sales.customers samples/sales.customers.jsonl
+          dcr validate finance.invoices samples/finance.invoices.jsonl
+      - name: Reports are current
+        run: dcr report --check
+      - name: Schemas and DDL are current
+        run: dcr export --check
+
+  package:
+    name: Wheel installs and runs on its own
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: Build
+        run: |
+          pip install build
+          python -m build --wheel
+      - name: Install the wheel into a clean environment and run it on a copy of the registry
+        run: |
+          python -m venv /tmp/clean
+          /tmp/clean/bin/pip install dist/*.whl
+          mkdir /tmp/reg
+          cp -r registry.toml contracts releases /tmp/reg/
+          cd "$(mktemp -d)"
+          /tmp/clean/bin/dcr --version
+          /tmp/clean/bin/dcr check --root /tmp/reg --fail-on high
+          /tmp/clean/bin/dcr compat --root /tmp/reg
+
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e . pip-audit
+      - name: pip-audit
+        run: pip-audit --skip-editable

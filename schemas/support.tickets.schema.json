@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:data-contract:support.tickets:0.1.0",
+  "title": "support.tickets",
+  "description": "Support tickets from the help desk. Draft: free text may hold personal data, under review.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ticket_id",
+    "customer_id",
+    "subject",
+    "priority",
+    "opened_at"
+  ],
+  "properties": {
+    "ticket_id": {
+      "type": "string",
+      "description": "Help desk ticket number."
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Pseudonymous customer identifier."
+    },
+    "subject": {
+      "type": "string",
+      "description": "Ticket subject line as typed by the customer."
+    },
+    "body": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Free text of the ticket. May contain personal data.",
+      "x-pii": true
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ],
+      "description": "Priority assigned by the triage agent."
+    },
+    "opened_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the ticket was opened, UTC."
+    }
+  },
+  "x-contract": {
+    "version": "0.1.0",
+    "owner": "support-data",
+    "classification": "confidential",
+    "tier": 3
+  }
+}
